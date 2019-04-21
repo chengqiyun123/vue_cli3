@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+    <script>
+        //定义一个vue组件
+        let c = {
+            data(){
+                return {
+                    msg: 'this is component'
+                }
+            },
+            template: '<div><h2>{{msg}}<slot></slot></h2></div>'
+        }
+        //全局组件：Vue.component('msg',c)
+        let renderObj = Vue.compile('<div><p>this is compile<msg>1</msg><msg>2</msg></p></div>');
+        
+        let TestConstructor = Vue.extend({
+            data(){
+                return {
+                    info: 'cheng'
+                }
+            },
+            template: '<h2>this is test2-{{info}}</h2>',
+            mounted(){
+                setTimeout(() => {
+                    this.info = 'success cheng'
+                },1000)
+            },
+            created(){
+                this.open()
+            }
+        })
+        TestConstructor.prototype.open = function(){
+            console.log('openFun')
+        }
+        //class a extends React.Component{} 继承了vue component的面向对象
+        // 创建 Profile 实例，并挂载到一个元素上。
+
+        let C = new TestConstructor({
+            el: document.createElement('div')
+        })
+
+        new Vue({
+            data: {},
+            template: `<div>
+                            <h1 ref="comp">hello Vue</h1>-
+                        </div>`,
+            // render: renderObj.render,
+            components: {
+                msg: c
+            },
+            mounted(){
+                this.$refs.comp.appendChild(C.$el)
+            }
+        }).$mount('#app')
+    </script>
+</body>
+</html>
