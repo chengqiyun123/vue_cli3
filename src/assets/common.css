@@ -1,0 +1,12 @@
+input{
+    outline: 0;
+}
+.valid-error{
+    border: 1px solid #f00;
+}
+.valid-success{
+    border: 1px solid yellowgreen;
+}
+.hint{
+    color: orangered;
+}
